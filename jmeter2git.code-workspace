@@ -19,5 +19,21 @@
     "editor.codeActionsOnSave": {
       "source.organizeImports": true
     }
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Launch Program",
+        "program": "${workspaceFolder}/dist/index.js",
+        "request": "launch",
+        "skipFiles": ["<node_internals>/**"],
+        "type": "node",
+        "args": [
+          "--jmxFile",
+          "C:\\Gateway\\v5_X\\uu_energygateway_messageregistryg01\\uu_energygateway_messageregistryg01-server\\src\\test\\jmeter\\message-registry.jmx"
+        ]
+      }
+    ]
   }
 }
