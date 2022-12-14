@@ -1,5 +1,6 @@
 import commandLineArgs, { OptionDefinition } from "command-line-args";
 import core from "./core";
+import { Joiner } from "./joiner";
 import { Splitter } from "./splitter";
 
 const optionDefinitions: OptionDefinition[] = [
@@ -8,8 +9,6 @@ const optionDefinitions: OptionDefinition[] = [
   { name: "join", alias: "j", type: Boolean },
 ];
 const options = commandLineArgs(optionDefinitions);
-
-// options.file = "C:\\Gateway\\v5_X\\uu_energygateway_messageregistryg01\\uu_energygateway_messageregistryg01-server\\src\\test\\jmeter\\datagateway.jmx";
 
 // function getPath(node: Node) {
 //   let path = "";
@@ -45,6 +44,8 @@ if (options.split && options.file) {
   const splitter = new Splitter(options.file);
   splitter.splitToParts();
 } else if (options.join && options.file) {
+  const joiner = new Joiner(options.file);
+  joiner.joinFromParts();
 } else {
   core.showError("For split: node index.js -f someFile.jmx -s\nFor join: node index.js -f someFile.jmx -j");
 }

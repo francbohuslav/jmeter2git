@@ -1,14 +1,17 @@
 import fs from "fs";
 import path from "path";
-import { DOMParser, XMLSerializer } from "xmldom";
+import { DOMParser } from "xmldom";
 import xpath from "xpath";
+import { Base } from "./base";
 import core from "./core";
 const md5 = require("md5");
 
-export class Splitter {
+export class Splitter extends Base {
   dom: Document;
 
-  public constructor(private filePath: string) {}
+  public constructor(private filePath: string) {
+    super();
+  }
 
   public splitToParts() {
     const dom = new DOMParser().parseFromString(core.readTextFile(this.filePath), "application/xml");
@@ -87,20 +90,40 @@ export class Splitter {
     for (const element of controllers) {
       const next = this.nextElement(element);
       if (this.isHashTree(next)) {
+        const nodesToRemove = this.getSiblinksByRange(element, next);
         const testname = element.getAttribute("testname");
         const partFileName = md5(testname) + ".xml";
         console.log(`  \x1b[32m${testname}\x1b[0m to \x1b[33m${partFileName}\x1b[0m`);
         const partFilePath = path.join(dirPath, partFileName);
-        core.writeTextFile(partFilePath, `<?xml version="1.0" encoding="UTF-8"?>\n<root>\n${this.serialize(element)}\n${this.serialize(next)}\n</root>`);
+        const nodesAsString = nodesToRemove.map((n) => this.serialize(n)).join("");
+        core.writeTextFile(partFilePath, `<?xml version="1.0" encoding="UTF-8"?>\n<root>${nodesAsString}</root>`);
         let includeNode = dom.createElement("jmeter2git.controller");
         includeNode.setAttribute("testname", element.getAttribute("testname"));
         includeNode.setAttribute("filename", partFileName);
         next.parentNode.replaceChild(includeNode, element);
-        next.parentNode.removeChild(next);
+        for (const node of nodesToRemove.slice(1)) {
+          element.parentNode.removeChild(node);
+        }
       }
     }
     console.log(`\x1b[32mWorkspace\x1b[0m to \x1b[33m_workspace.xml\x1b[0m`);
     core.writeTextFile(path.join(dirPath, "_workspace.xml"), this.serialize(dom));
+  }
+
+  private getSiblinksByRange(fromNode: Node, toNode: Node): Node[] {
+    const nodes: Node[] = [];
+    nodes.push(fromNode);
+    let node = fromNode;
+    let counter = 100;
+    do {
+      node = node.nextSibling;
+      nodes.push(node);
+      counter--;
+    } while (node !== toNode && counter > 0);
+    if (counter === 0) {
+      throw new Error("Sibling is to far");
+    }
+    return nodes;
   }
 
   private isElement(node: any): node is Element {
@@ -159,14 +182,5 @@ export class Splitter {
       return element.previousSibling;
     }
     return this.prevElement(element.previousSibling);
-  }
-
-  private serialize(element: Element | Document): string {
-    const serializer = new XMLSerializer();
-    return this.fixTags(serializer.serializeToString(element));
-  }
-
-  private fixTags(xml: string): string {
-    return xml.replace(/(<stringProp\s[^>]+)\/>/g, "$1></stringProp>");
   }
 }
