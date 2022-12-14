@@ -1,25 +1,37 @@
 {
-	"version": "2.0.0",
-	"tasks": [
-        {
-            "type": "npm",
-            "script": "build",
-            "group": "build",
-            "problemMatcher": [],
-            "label": "npm: build"
-        },
-        {
-            "type": "npm",
-            "script": "watch",
-            "group": "build",
-            "problemMatcher": [],
-            "label": "npm: watch"
-        },
-        {
-            "type": "npm",
-            "script": "devel",
-            "problemMatcher": [],
-            "label": "npm: devel"
-        }
-    ]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "build",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "npm: build"
+    },
+    {
+      "type": "npm",
+      "script": "watch",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "npm: watch"
+    },
+    {
+      "type": "npm",
+      "script": "devel",
+      "problemMatcher": [],
+      "label": "npm: devel"
+    },
+    {
+      "type": "npm",
+      "script": "mr",
+      "problemMatcher": [],
+      "label": "MR"
+    },
+    {
+      "type": "npm",
+      "script": "dg",
+      "problemMatcher": [],
+      "label": "DG"
+    }
+  ]
 }
