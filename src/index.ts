@@ -1,15 +1,18 @@
 import commandLineArgs, { OptionDefinition } from "command-line-args";
+import glob from "glob";
+import { promisify } from "util";
 import core from "./core";
 import { Joiner } from "./joiner";
 import { Splitter } from "./splitter";
 
+const globAsync = promisify(glob);
+
 const optionDefinitions: OptionDefinition[] = [
-  { name: "file", alias: "f", type: String },
+  { name: "file", alias: "f", type: String, multiple: true },
   { name: "split", alias: "s", type: Boolean },
   { name: "join", alias: "j", type: Boolean },
 ];
 const options = commandLineArgs(optionDefinitions);
-
 // function getPath(node: Node) {
 //   let path = "";
 //   if (node.parentNode != null) {
@@ -40,12 +43,31 @@ const options = commandLineArgs(optionDefinitions);
 //   return something;
 // }
 
-if (options.split && options.file) {
-  const splitter = new Splitter(options.file);
-  splitter.splitToParts();
-} else if (options.join && options.file) {
-  const joiner = new Joiner(options.file);
-  joiner.joinFromParts();
-} else {
+function showSyntaxe() {
   core.showError("For split: node index.js -f someFile.jmx -s\nFor join: node index.js -f someFile.jmx -j");
 }
+
+(async () => {
+  let files: string[] = [];
+  if (options.file) {
+    for (let file of options.file) {
+      file = file.replace(/\\/g, "/");
+      files = files.concat(await globAsync(file));
+    }
+  }
+
+  if (files.length > 0) {
+    for (const file of files) {
+      core.showMessage(file);
+      if (options.split) {
+        const splitter = new Splitter(file);
+        splitter.splitToParts();
+      } else if (options.join) {
+        const joiner = new Joiner(file);
+        joiner.joinFromParts();
+      } else showSyntaxe();
+    }
+  } else {
+    showSyntaxe();
+  }
+})();

@@ -86,7 +86,6 @@ export class Splitter extends Base {
     fs.readdirSync(dirPath)
       .filter((f) => f.endsWith(".xml"))
       .forEach((f) => fs.unlinkSync(path.join(dirPath, f)));
-    core.showMessage("Exporting:");
     for (const element of controllers) {
       const next = this.nextElement(element);
       if (this.isHashTree(next)) {

@@ -32,6 +32,20 @@
       "script": "dg",
       "problemMatcher": [],
       "label": "DG"
+    },
+    {
+      "type": "npm",
+      "script": "all",
+      "problemMatcher": [],
+      "label": "npm: all",
+      "detail": "node ./dist/index.js -s -f C:\\Gateway\\v5_X\\uu_energygateway_messageregistryg01\\uu_energygateway_messageregistryg01-server\\src\\test\\jmeter\\*.jmx"
+    },
+    {
+      "type": "npm",
+      "script": "dgJoin",
+      "problemMatcher": [],
+      "label": "npm: dgJoin",
+      "detail": "node ./dist/index.js -j -f C:\\Gateway\\v5_X\\uu_energygateway_messageregistryg01\\uu_energygateway_messageregistryg01-server\\src\\test\\jmeter\\datagateway.jmx"
     }
   ]
 }

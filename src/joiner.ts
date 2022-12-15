@@ -24,14 +24,16 @@ export class Joiner extends Base {
   private replaceControllers(dom: Document) {
     const controllers: Element[] = [...xpath.select("//jmeter2git.controller", dom)] as any;
     for (const controller of controllers) {
-      this.replaceController(controller, dom);
+      this.replaceController(controller);
     }
   }
 
-  private replaceController(controller: Element, dom: Document) {
-    console.log(controller.getAttribute("filename"));
+  private replaceController(controller: Element) {
+    const testname = controller.getAttribute("testname");
+    const partFileName = controller.getAttribute("filename");
+    console.log(`  \x1b[33m${partFileName}\x1b[0m to \x1b[32m${testname}\x1b[0m`);
     const dirPath = this.filePath + "-parts";
-    const partPath = path.join(dirPath, controller.getAttribute("filename"));
+    const partPath = path.join(dirPath, partFileName);
     const partDom = new DOMParser().parseFromString(core.readTextFile(partPath), "application/xml");
     const parts = (xpath.select1("/root", partDom) as Node).childNodes;
     while (parts.length > 0) {
