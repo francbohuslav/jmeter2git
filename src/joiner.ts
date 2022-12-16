@@ -5,8 +5,8 @@ import { Base } from "./base";
 import core from "./core";
 
 export class Joiner extends Base {
-  public constructor(private filePath: string) {
-    super();
+  public constructor(private filePath: string, nocolor: boolean) {
+    super(nocolor);
   }
 
   public joinFromParts() {
@@ -31,7 +31,7 @@ export class Joiner extends Base {
   private replaceController(controller: Element) {
     const testname = controller.getAttribute("testname");
     const partFileName = controller.getAttribute("filename");
-    console.log(`  \x1b[33m${partFileName}\x1b[0m to \x1b[32m${testname}\x1b[0m`);
+    console.log(`  ${this.logYellow(partFileName)} to ${this.logGreen(testname)}`);
     const dirPath = this.filePath + "-parts";
     const partPath = path.join(dirPath, partFileName);
     const partDom = new DOMParser().parseFromString(core.readTextFile(partPath), "application/xml");

@@ -9,8 +9,8 @@ const md5 = require("md5");
 export class Splitter extends Base {
   dom: Document;
 
-  public constructor(private filePath: string) {
-    super();
+  public constructor(private filePath: string, nocolor: boolean) {
+    super(nocolor);
   }
 
   public splitToParts() {
@@ -66,14 +66,14 @@ export class Splitter extends Base {
     Object.entries(controllersCountByName).forEach(([testName, count]) => {
       if (count > 1) {
         if (!found) {
-          core.showMessage("Duplicate names of controllers found:");
+          this.showMessage("Duplicate names of controllers found:");
         }
         found = true;
         console.log(`  ${count}x ${testName}`);
       }
     });
     if (found) {
-      core.showError("ERROR: Controller name must be unique.");
+      this.showError("ERROR: Controller name must be unique.");
     }
   }
 
@@ -92,7 +92,7 @@ export class Splitter extends Base {
         const nodesToRemove = this.getSiblinksByRange(element, next);
         const testname = element.getAttribute("testname");
         const partFileName = md5(testname) + ".xml";
-        console.log(`  \x1b[32m${testname}\x1b[0m to \x1b[33m${partFileName}\x1b[0m`);
+        console.log(`  ${this.logGreen(testname)} to ${this.logYellow(partFileName)}`);
         const partFilePath = path.join(dirPath, partFileName);
         const nodesAsString = nodesToRemove.map((n) => this.serialize(n)).join("");
         core.writeTextFile(partFilePath, `<?xml version="1.0" encoding="UTF-8"?>\n<root>${nodesAsString}</root>`);
@@ -105,7 +105,7 @@ export class Splitter extends Base {
         }
       }
     }
-    console.log(`\x1b[32mWorkspace\x1b[0m to \x1b[33m_workspace.xml\x1b[0m`);
+    console.log(`${this.logGreen("Workspace")} to ${this.logYellow("_workspace.xml")}`);
     core.writeTextFile(path.join(dirPath, "_workspace.xml"), this.serialize(dom));
   }
 

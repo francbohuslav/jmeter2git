@@ -11,6 +11,7 @@ const optionDefinitions: OptionDefinition[] = [
   { name: "file", alias: "f", type: String, multiple: true },
   { name: "split", alias: "s", type: Boolean },
   { name: "join", alias: "j", type: Boolean },
+  { name: "nocolors", alias: "n", type: Boolean },
 ];
 const options = commandLineArgs(optionDefinitions);
 // function getPath(node: Node) {
@@ -44,7 +45,7 @@ const options = commandLineArgs(optionDefinitions);
 // }
 
 function showSyntaxe() {
-  core.showError("For split: node index.js -f someFile.jmx -s\nFor join: node index.js -f someFile.jmx -j");
+  this.showError("For split: node index.js -f someFile.jmx -s\nFor join: node index.js -f someFile.jmx -j");
 }
 
 (async () => {
@@ -58,12 +59,16 @@ function showSyntaxe() {
 
   if (files.length > 0) {
     for (const file of files) {
-      core.showMessage(file);
+      if (options.nocolors) {
+        console.log(file);
+      } else {
+        core.showMessage(file);
+      }
       if (options.split) {
-        const splitter = new Splitter(file);
+        const splitter = new Splitter(file, options.nocolors);
         splitter.splitToParts();
       } else if (options.join) {
-        const joiner = new Joiner(file);
+        const joiner = new Joiner(file, options.nocolors);
         joiner.joinFromParts();
       } else showSyntaxe();
     }
