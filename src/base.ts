@@ -30,6 +30,7 @@ export abstract class Base {
   protected showMessage(text: string) {
     if (this.nocolor) {
       console.log(text);
+      return;
     }
     core.showMessage(text);
   }

@@ -45,7 +45,7 @@ const options = commandLineArgs(optionDefinitions);
 // }
 
 function showSyntaxe() {
-  this.showError("For split: node index.js -f someFile.jmx -s\nFor join: node index.js -f someFile.jmx -j");
+  core.showError("For split: node index.js -f someFile.jmx -s\nFor join: node index.js -f someFile.jmx -j");
 }
 
 (async () => {
