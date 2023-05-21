@@ -1,3 +1,5 @@
+import assert from "assert";
+import path from "path";
 import { XMLSerializer } from "xmldom";
 import core from "./core";
 
@@ -34,11 +36,18 @@ export abstract class Base {
     }
     core.showMessage(text);
   }
+
   protected showError(error: string) {
     if (this.nocolor) {
       console.log(error);
       process.exit(1);
     }
     core.showError(error);
+  }
+
+  protected getPartsFolderFromJmxFile(filePath: string): string {
+    assert(path.extname(filePath) === ".jmx", filePath);
+    const rootDir = path.dirname(filePath);
+    return path.join(rootDir, "jmeter2git-parts", path.basename(filePath, ".jmx"));
   }
 }

@@ -79,9 +79,11 @@ export class Splitter extends Base {
 
   private exportToParts(controllers: Element[], dom: Document) {
     // Replace nodes
-    const dirPath = this.filePath + "-parts";
+    const dirPath = this.getPartsFolderFromJmxFile(this.filePath);
     if (!fs.existsSync(dirPath)) {
-      fs.mkdirSync(dirPath);
+      fs.mkdirSync(dirPath, {
+        recursive: true,
+      });
     }
     fs.readdirSync(dirPath)
       .filter((f) => f.endsWith(".xml"))

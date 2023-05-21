@@ -12,11 +12,11 @@ export class Joiner extends Base {
   public joinFromParts() {
     const dom = this.loadWorkspace();
     this.replaceControllers(dom);
-    core.writeTextFile(this.filePath + ".dest.xml", this.serialize(dom));
+    core.writeTextFile(this.filePath, this.serialize(dom));
   }
 
   private loadWorkspace() {
-    const dirPath = this.filePath + "-parts";
+    const dirPath = this.getPartsFolderFromJmxFile(this.filePath);
     const workspacePath = path.join(dirPath, "_workspace.xml");
     return new DOMParser().parseFromString(core.readTextFile(workspacePath), "application/xml");
   }
@@ -32,7 +32,7 @@ export class Joiner extends Base {
     const testname = controller.getAttribute("testname");
     const partFileName = controller.getAttribute("filename");
     console.log(`  ${this.logYellow(partFileName)} to ${this.logGreen(testname)}`);
-    const dirPath = this.filePath + "-parts";
+    const dirPath = this.getPartsFolderFromJmxFile(this.filePath);
     const partPath = path.join(dirPath, partFileName);
     const partDom = new DOMParser().parseFromString(core.readTextFile(partPath), "application/xml");
     const parts = (xpath.select1("/root", partDom) as Node).childNodes;

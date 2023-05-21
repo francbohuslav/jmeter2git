@@ -46,6 +46,13 @@
       "problemMatcher": [],
       "label": "npm: dgJoin",
       "detail": "node ./dist/index.js -j -f C:\\Gateway\\v5_X\\uu_energygateway_messageregistryg01\\uu_energygateway_messageregistryg01-server\\src\\test\\jmeter\\datagateway.jmx"
+    },
+    {
+      "type": "npm",
+      "script": "mrJoin",
+      "problemMatcher": [],
+      "label": "npm: mrJoin",
+      "detail": "node ./dist/index.js -j -f C:\\Gateway\\v5_X\\uu_energygateway_messageregistryg01\\uu_energygateway_messageregistryg01-server\\src\\test\\jmeter\\message-registry.jmx"
     }
   ]
 }
