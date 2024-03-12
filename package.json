@@ -10,7 +10,7 @@
     "dgJoin": "node ./dist/index.js -j -f C:\\Gateway\\v5_X\\uu_energygateway_messageregistryg01\\uu_energygateway_messageregistryg01-server\\src\\test\\jmeter\\datagateway.jmx",
     "mrJoin": "node ./dist/index.js -j -f C:\\Gateway\\v5_X\\uu_energygateway_messageregistryg01\\uu_energygateway_messageregistryg01-server\\src\\test\\jmeter\\message-registry.jmx",
     "all": "node ./dist/index.js -s -f C:\\Gateway\\v5_X\\uu_energygateway_messageregistryg01\\uu_energygateway_messageregistryg01-server\\src\\test\\jmeter\\*.jmx",
-    "devel": "nodemon ./dist/index.js -j -f C:\\Gateway\\v5_X\\uu_energygateway_messageregistryg01\\uu_energygateway_messageregistryg01-server\\src\\test\\jmeter\\datagateway.jmx",
+    "devel": "nodemon ./dist/index.js -- -s -f C:\\Gateway\\v5_X\\uu_energygateway_messageregistryg01\\uu_energygateway_messageregistryg01-server\\src\\test\\jmeter\\datagateway.jmx",
     "build": "tsc --project tsconfig.json --extendedDiagnostics",
     "watch": "tsc --watch --project tsconfig.json"
   },

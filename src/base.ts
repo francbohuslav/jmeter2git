@@ -16,17 +16,15 @@ export abstract class Base {
   }
 
   protected logYellow(text: string) {
-    if (this.nocolor) {
-      return text;
-    }
-    return `\x1b[33m${text}\x1b[0m`;
+    return this.nocolor ? text : `\x1b[33m${text}\x1b[0m`;
   }
 
   protected logGreen(text: string) {
-    if (this.nocolor) {
-      return text;
-    }
-    return `\x1b[32m${text}\x1b[0m`;
+    return this.nocolor ? text : `\x1b[32m${text}\x1b[0m`;
+  }
+
+  protected logRed(text: string) {
+    return this.nocolor ? text : `\x1b[31m${text}\x1b[0m`;
   }
 
   protected showMessage(text: string) {

@@ -14,35 +14,6 @@ const optionDefinitions: OptionDefinition[] = [
   { name: "nocolors", alias: "n", type: Boolean },
 ];
 const options = commandLineArgs(optionDefinitions);
-// function getPath(node: Node) {
-//   let path = "";
-//   if (node.parentNode != null) {
-//     path += getPath(node.parentNode) + " > ";
-//   }
-//   path += node.nodeName;
-//   return path;
-// }
-
-// function hasAncestor(element: Element, tagName: string): boolean {
-//   element = element.parentElement;
-//   if (!element) {
-//     return false;
-//   }
-//   if (element.nodeName === tagName) {
-//     return true;
-//   }
-//   return hasAncestor(element, tagName);
-// }
-
-// function print(something: any) {
-//   if (something) {
-//     if (isElement(something)) {
-//       return something.tagName;
-//     }
-//     return (something as Object).constructor.name;
-//   }
-//   return something;
-// }
 
 function showSyntaxe() {
   core.showError("For split: node index.js -f someFile.jmx -s\nFor join: node index.js -f someFile.jmx -j");
